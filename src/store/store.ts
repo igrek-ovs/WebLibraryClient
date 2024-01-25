@@ -1,10 +1,12 @@
 import {combineReducers, configureStore} from "@reduxjs/toolkit";
 import App from "../App";
 import bookReducer from './reducers/BookSlice'
+import pageReducer from './reducers/PageSlice'
 
 
 const rootReducer  = combineReducers({
-    bookReducer
+    bookReducer,
+    pageReducer
 })
 
 export const setupStore = () =>{

@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import api from '../services/api';
-import BookSlice, {removeBook, setBooks} from '../store/reducers/BookSlice'
-import {useAppDispatch, useAppSelector} from "../hooks/redux";
-import {Button} from "@mui/material";
-
+import { Button } from "@mui/material";
+import { useAppDispatch, useAppSelector } from "../hooks/redux";
+import BookSlice, { removeBook, setBooks } from '../store/reducers/BookSlice';
+import PageSlice, { setCurrentPage, setTotalPages, decrementTotalPages } from '../store/reducers/PageSlice';
 
 export interface Book {
     id: number;
@@ -25,33 +25,29 @@ interface BookDto extends Book {
     authorName: string;
 }
 
-
 const BookListComponent: React.FC = () => {
     const [books, setBooksLocal] = useState<any[]>([]);
-    const [currentPage, setCurrentPage] = useState<number>(1);
-    const [totalPages, setTotalPages] = useState<number>(1);
     const dispatch = useAppDispatch();
     const booksRedux = useAppSelector((state: any) => state.bookReducer.books);
-
+    const pageRedux = useAppSelector((state: any) => state.pageReducer);
 
     useEffect(() => {
         const fetchPages = async () => {
             try {
                 const response = await api.get(`/api/Book/GetNumberOfPages`);
-                setTotalPages(response.data);
+                dispatch(setTotalPages(response.data));
             } catch (error) {
                 console.error('Error fetching pages:', error);
             }
         };
 
         fetchPages();
-    }, [totalPages]);
-
+    }, []);
 
     useEffect(() => {
         const fetchBooks = async () => {
             try {
-                const response = await api.get(`/api/Book/GetBooksOnPage/${currentPage}`);
+                const response = await api.get(`/api/Book/GetBooksOnPage/${pageRedux.currentPage}`);
                 setBooksLocal(response.data);
                 dispatch(setBooks(response.data));
             } catch (error) {
@@ -60,7 +56,7 @@ const BookListComponent: React.FC = () => {
         };
 
         fetchBooks();
-    }, [currentPage]);
+    }, [pageRedux.currentPage]);
 
     const deleteBook = async (bookId: number) => {
         try {
@@ -81,14 +77,20 @@ const BookListComponent: React.FC = () => {
 
             dispatch(removeBook(bookId));
 
+            const isLastBookOnLastPage = booksRedux.length === 1 && pageRedux.currentPage === pageRedux.totalPages;
+            const isLastPageEmpty = booksRedux.length === 0 && pageRedux.totalPages > 1;
 
+            if (isLastBookOnLastPage || isLastPageEmpty) {
+                dispatch(decrementTotalPages());
+                dispatch(setCurrentPage(pageRedux.currentPage - 1));
+            }
         } catch (error) {
             console.error('DeleteBook failed:', error);
         }
-    }
+    };
 
     const handlePageChange = (pageNumber: number) => {
-        setCurrentPage(pageNumber);
+        dispatch(setCurrentPage(pageNumber));
     };
 
     const bookContainerStyle: React.CSSProperties = {
@@ -156,7 +158,7 @@ const BookListComponent: React.FC = () => {
             </Link>
             <div style={{ marginTop: '10px' }}>
                 <span>Pages: </span>
-                {[...Array(totalPages).keys()].map((pageNumber) => (
+                {[...Array(pageRedux.totalPages).keys()].map((pageNumber) => (
                     <Link
                         key={pageNumber + 1}
                         to={`#`}
