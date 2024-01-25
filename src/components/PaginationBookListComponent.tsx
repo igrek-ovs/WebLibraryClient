@@ -1,11 +1,37 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import api from '../services/api';
+import BookSlice, {removeBook, setBooks} from '../store/reducers/BookSlice'
+import {useAppDispatch, useAppSelector} from "../hooks/redux";
+import {Button} from "@mui/material";
+
+
+export interface Book {
+    id: number;
+    title: string;
+    genre: string;
+    authorId: number;
+    author: Author | null;
+}
+
+export interface Author {
+    id: number;
+    name: string;
+    description: string;
+    books: Book[];
+}
+
+interface BookDto extends Book {
+    authorName: string;
+}
+
 
 const BookListComponent: React.FC = () => {
-    const [books, setBooks] = useState<any[]>([]);
+    const [books, setBooksLocal] = useState<any[]>([]);
     const [currentPage, setCurrentPage] = useState<number>(1);
     const [totalPages, setTotalPages] = useState<number>(1);
+    const dispatch = useAppDispatch();
+    const booksRedux = useAppSelector((state: any) => state.bookReducer.books);
 
 
     useEffect(() => {
@@ -26,7 +52,8 @@ const BookListComponent: React.FC = () => {
         const fetchBooks = async () => {
             try {
                 const response = await api.get(`/api/Book/GetBooksOnPage/${currentPage}`);
-                setBooks(response.data);
+                setBooksLocal(response.data);
+                dispatch(setBooks(response.data));
             } catch (error) {
                 console.error('Error fetching books:', error);
             }
@@ -34,6 +61,31 @@ const BookListComponent: React.FC = () => {
 
         fetchBooks();
     }, [currentPage]);
+
+    const deleteBook = async (bookId: number) => {
+        try {
+            if (!bookId) {
+                console.error('Book ID is required');
+                return;
+            }
+
+            const authToken = localStorage.getItem('authToken');
+            if (!authToken) {
+                console.error('User is not authenticated');
+                return;
+            }
+
+            const headers = { Authorization: `Bearer ${authToken}` };
+
+            await api.delete(`/api/Book/${bookId}`, { headers });
+
+            dispatch(removeBook(bookId));
+
+
+        } catch (error) {
+            console.error('DeleteBook failed:', error);
+        }
+    }
 
     const handlePageChange = (pageNumber: number) => {
         setCurrentPage(pageNumber);
@@ -80,7 +132,7 @@ const BookListComponent: React.FC = () => {
         <div>
             <h1>Book List</h1>
             <ul>
-                {books.map((book) => (
+                {booksRedux.map((book: BookDto) => (
                     <li key={book.id}>
                         <div style={bookContainerStyle}>
                             <strong>{book.title}</strong>
@@ -89,9 +141,9 @@ const BookListComponent: React.FC = () => {
                             <Link to={`/update-book/${book.id}`} style={updateLinkStyle}>
                                 Update Book
                             </Link>
-                            <Link to={`/delete-book/${book.id}`} style={deleteLinkStyle}>
+                            <Button onClick={() => deleteBook(book.id)} style={deleteLinkStyle}>
                                 Delete Book
-                            </Link>
+                            </Button>
                             <Link to={`/get-book/${book.id}`} style={getLinkStyle}>
                                 Get Book by ID
                             </Link>

@@ -39,8 +39,10 @@ export const bookSlice = createSlice({
         setBooks: (state, action: PayloadAction<BookDto[]>) => {
             state.books = action.payload;
         },
-        // ... другие редукторы
+        removeBook: (state, action: PayloadAction<number>) => {
+            state.books = state.books.filter(book => book.id !== action.payload);
+        }
     },
 });
-export const { setBooks} = bookSlice.actions;
+export const { removeBook, setBooks} = bookSlice.actions;
 export default bookSlice.reducer;

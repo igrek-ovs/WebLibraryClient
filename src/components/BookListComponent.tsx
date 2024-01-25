@@ -3,7 +3,7 @@ import api from '../services/api';
 import { Link } from 'react-router-dom';
 import { Button } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
-import BookSlice, { setBooks} from '../store/reducers/BookSlice'
+import BookSlice, {removeBook, setBooks} from '../store/reducers/BookSlice'
 import {useAppDispatch, useAppSelector} from "../hooks/redux";
 
 
@@ -61,8 +61,7 @@ const BookListComponent = () => {
 
             await api.delete(`/api/Book/${bookId}`, { headers });
 
-            const updatedBooks = booksLocal.filter(book => book.id !== bookId);
-            setBooksLocal(updatedBooks);
+            dispatch(removeBook(bookId));
 
 
         } catch (error) {
