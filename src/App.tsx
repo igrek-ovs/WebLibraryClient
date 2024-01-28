@@ -54,7 +54,7 @@ const App: React.FC<AppProps> = () => {
     const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
 
     useEffect(() => {
-        const authToken = localStorage.getItem('authToken');
+        const authToken = localStorage.getItem('accessToken');
         setIsAuthenticated(!!authToken);
     }, []);
 

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import api from '../services/api';
 import { Button } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "../hooks/redux";
@@ -30,6 +30,7 @@ const BookListComponent: React.FC = () => {
     const dispatch = useAppDispatch();
     const booksRedux = useAppSelector((state: any) => state.bookReducer.books);
     const pageRedux = useAppSelector((state: any) => state.pageReducer);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchPages = async () => {
@@ -65,9 +66,15 @@ const BookListComponent: React.FC = () => {
                 return;
             }
 
-            const authToken = localStorage.getItem('authToken');
+            const authToken = localStorage.getItem('accessToken');
             if (!authToken) {
                 console.error('User is not authenticated');
+                return;
+            }
+
+            const refreshToken = localStorage.getItem('refreshToken');
+            if (!refreshToken) {
+                console.error('Refresh token is missing');
                 return;
             }
 
@@ -84,10 +91,30 @@ const BookListComponent: React.FC = () => {
                 dispatch(decrementTotalPages());
                 dispatch(setCurrentPage(pageRedux.currentPage - 1));
             }
-        } catch (error) {
-            console.error('DeleteBook failed:', error);
+        } catch (error: any) {
+            if (error.response && error.response.status === 401) {
+                try {
+                    const refreshToken = localStorage.getItem('refreshToken');
+                    const userId = localStorage.getItem('userId');
+                    const refreshResponse = await api.post('/api/Auth/refresh', { userId: userId,
+                        token: refreshToken });
+
+                    localStorage.setItem('accessToken', refreshResponse.data);
+
+                    await deleteBook(bookId);
+                } catch (refreshError) {
+                    localStorage.removeItem('userId');
+                    localStorage.removeItem('accessToken');
+                    localStorage.removeItem('refreshToken');
+                    console.error('Token refresh failed:', refreshError);
+                    navigate('/login');
+                }
+            } else {
+                console.error('DeleteBook failed:', error);
+            }
         }
     };
+
 
     const handlePageChange = (pageNumber: number) => {
         dispatch(setCurrentPage(pageNumber));

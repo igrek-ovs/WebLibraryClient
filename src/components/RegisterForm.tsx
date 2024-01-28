@@ -22,6 +22,8 @@ const RegisterForm: React.FC = () => {
         setRegisterUser((prevUser) => ({ ...prevUser, [name]: value }));
     };
 
+
+
     const handleRegister = async () => {
         try {
             await api.post('api/Auth/register', registerUser);

@@ -29,9 +29,10 @@ const AuthForm: React.FC<AuthPageProps> = ({ setIsAuthenticated }) => {
     const handleLogin = async () => {
         try {
             const response = await api.post('api/Auth/login', loginUser);
-            const token = response.data; // получаем токен
-            localStorage.setItem('authToken', token);
-            console.log('Successfully logged in:', token);
+            localStorage.setItem('accessToken', response.data.accessToken);
+            localStorage.setItem('refreshToken', response.data.refreshToken.token);
+            localStorage.setItem('userId', response.data.refreshToken.userId);
+            //console.log('Successfully logged in:', token);
             setIsAuthenticated(true);
             setRedirectToBooks(true);
         } catch (error) {

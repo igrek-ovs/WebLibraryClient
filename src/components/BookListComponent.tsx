@@ -51,7 +51,7 @@ const BookListComponent = () => {
                 return;
             }
 
-            const authToken = localStorage.getItem('authToken');
+            const authToken = localStorage.getItem('accessToken');
             if (!authToken) {
                 console.error('User is not authenticated');
                 return;
