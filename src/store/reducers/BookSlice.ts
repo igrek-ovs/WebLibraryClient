@@ -14,6 +14,7 @@ interface Book {
     genre: string;
     authorId: number;
     author: Author | null;
+    imagePath:string;
 }
 
 interface BookDto extends Book {

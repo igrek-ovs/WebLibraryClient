@@ -12,6 +12,7 @@ export interface Book {
     genre: string;
     authorId: number;
     author: Author | null;
+    imagePath: string;
 }
 
 export interface Author {
@@ -167,6 +168,11 @@ const BookListComponent: React.FC = () => {
                             <strong>{book.title}</strong>
                             <p>Genre: {book.genre}</p>
                             <p>Author: {book.authorName}</p>
+                            {book.imagePath ? (
+                                <img src={book.imagePath} alt={`Image for ${book.title}`}/>
+                            ) : (
+                                <p>No image</p>
+                            )}
                             <Link to={`/update-book/${book.id}`} style={updateLinkStyle}>
                                 Update Book
                             </Link>
