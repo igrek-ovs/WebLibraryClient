@@ -4,12 +4,14 @@ import api from '../services/api';
 
 const UpdateBookComponent: React.FC = () => {
     const { bookId } = useParams<{ bookId: string }>();
-    console.log('BookID', bookId);
     const [bookToUpdate, setBookToUpdate] = useState({
         title: '',
         genre: '',
         authorId: 0,
+        imagePath: '',
     });
+    const [authors, setAuthors] = useState<any[]>([]);
+    const [imageFile, setImageFile] = useState<File | null>(null);
 
     useEffect(() => {
         const fetchBookDetails = async () => {
@@ -23,6 +25,7 @@ const UpdateBookComponent: React.FC = () => {
                         title: bookDetailsFromServer.title,
                         genre: bookDetailsFromServer.genre,
                         authorId: bookDetailsFromServer.authorId,
+                        imagePath: bookDetailsFromServer.imagePath,
                     };
 
                     setBookToUpdate(bookDetails);
@@ -32,15 +35,34 @@ const UpdateBookComponent: React.FC = () => {
             }
         };
 
+        const fetchAuthors = async () => {
+            try {
+                const response = await api.get('/api/Book/get-authors');
+                setAuthors(response.data);
+            } catch (error) {
+                console.error('Error fetching authors:', error);
+            }
+        };
+
         fetchBookDetails();
+        fetchAuthors();
     }, [bookId]);
 
     const handleUpdateBook = async () => {
         try {
             if (bookId && bookToUpdate.title && bookToUpdate.genre && bookToUpdate.authorId) {
+                const formData = new FormData();
+                formData.append('file', imageFile || '');
 
-                console.log('Updating with data:', bookToUpdate);
-                const response = await api.put(`/api/Book/${parseInt(bookId, 10)}`, bookToUpdate);
+                const imageResponse = await api.post('/api/Book/upload-image', formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                    },
+                });
+
+                const updatedBook = { ...bookToUpdate, imagePath: imageResponse.data };
+                const response = await api.put(`/api/Book/${parseInt(bookId, 10)}`, updatedBook);
+
                 console.log('UpdateBook response:', response.data);
             } else {
                 console.error('UpdateBook failed: Invalid data');
@@ -72,12 +94,27 @@ const UpdateBookComponent: React.FC = () => {
             </label>
             <br />
             <label>
-                Author ID:
-                <input
-                    type="number"
-                    value={bookToUpdate.authorId || 0}
+                Author:
+                <select
+                    value={bookToUpdate.authorId}
                     onChange={(e) => setBookToUpdate({ ...bookToUpdate, authorId: parseInt(e.target.value, 10) })}
-                />
+                >
+                    {authors.map((author) => (
+                        <option key={author.id} value={author.id}>
+                            {author.name}
+                        </option>
+                    ))}
+                </select>
+            </label>
+            <br />
+            <label>
+                Image:
+                {bookToUpdate.imagePath ? (
+                    <img src={bookToUpdate.imagePath} alt="Book Cover" style={{ maxWidth: '200px' }} />
+                ) : (
+                    <span>No Image</span>
+                )}
+                <input type="file" accept="image/*" onChange={(e) => e.target.files && setImageFile(e.target.files[0])} />
             </label>
             <br />
             <button onClick={handleUpdateBook}>Update Book</button>

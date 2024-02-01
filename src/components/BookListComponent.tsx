@@ -117,7 +117,7 @@ const BookListComponent = () => {
                         <p>Genre: {book.genre}</p>
                         <p>Author: {book.authorName}</p>
                         {book.imagePath ? (
-                            <img src={book.imagePath} alt={`Image for ${book.title}`}/>
+                            <img src={book.imagePath} alt={`Image for ${book.title}`} style={{ maxWidth: '200px' }}/>
                         ) : (
                             <p>No image</p>
                         )}
