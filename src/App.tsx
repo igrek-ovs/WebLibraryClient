@@ -73,6 +73,9 @@ const App: React.FC<AppProps> = () => {
             <Link to="/get-pages" style={booksWithPagesLinkStyle}>
                 List of Books With Pages
             </Link>
+            <Link to={`/get-book`} style={booksLinkStyle}>
+                Get Book by NAME
+            </Link>
             {isAuthenticated ? (
                 <Link to="/logout" style={{ ...linkStyle, backgroundColor: 'purple' }}>
                     Logout
@@ -89,7 +92,7 @@ const App: React.FC<AppProps> = () => {
                 <Route path="/create-book" element={<CreateBookComponent />} />
                 <Route path="/update-book/:bookId" element={<UpdateBookComponent />} />
                 <Route path="/delete-book/:bookId" element={<DeleteBookComponent />} />
-                <Route path="/get-book/:id" element={<GetBookByIdComponent />} />
+                <Route path="/get-book" element={<GetBookByIdComponent />} />
                 <Route path="/get-pages" element={<GetBooksOnDifPages />} />
                 <Route path="/logout" element={<LogoutComponent />} />
             </Routes>

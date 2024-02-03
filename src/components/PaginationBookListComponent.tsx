@@ -169,7 +169,7 @@ const BookListComponent: React.FC = () => {
                             <p>Genre: {book.genre}</p>
                             <p>Author: {book.authorName}</p>
                             {book.imagePath ? (
-                                <img src={book.imagePath} alt={`Image for ${book.title}`}/>
+                                <img src={book.imagePath} alt={`Image for ${book.title}`} style={{ maxWidth: '200px' }}/>
                             ) : (
                                 <p>No image</p>
                             )}
@@ -179,13 +179,12 @@ const BookListComponent: React.FC = () => {
                             <Button onClick={() => deleteBook(book.id)} style={deleteLinkStyle}>
                                 Delete Book
                             </Button>
-                            <Link to={`/get-book/${book.id}`} style={getLinkStyle}>
-                                Get Book by ID
-                            </Link>
+
                         </div>
                     </li>
                 ))}
             </ul>
+
             <Link to="/create-book" style={createLinkStyle}>
                 Create New Book
             </Link>

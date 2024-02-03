@@ -6,6 +6,12 @@ import { useDispatch, useSelector } from "react-redux";
 import BookSlice, {removeBook, setBooks} from '../store/reducers/BookSlice'
 import {useAppDispatch, useAppSelector} from "../hooks/redux";
 
+export const bookContainerStyle: React.CSSProperties = {
+    border: '1px solid #ddd',
+    borderRadius: '5px',
+    padding: '10px',
+    marginBottom: '10px',
+};
 
 export interface Book {
     id: number;
@@ -23,7 +29,7 @@ export interface Author {
     books: Book[];
 }
 
-interface BookDto extends Book {
+export interface BookDto extends Book {
     authorName: string;
 }
 const BookListComponent = () => {
@@ -70,12 +76,7 @@ const BookListComponent = () => {
         }
     }
 
-    const bookContainerStyle: React.CSSProperties = {
-        border: '1px solid #ddd',
-        borderRadius: '5px',
-        padding: '10px',
-        marginBottom: '10px',
-    };
+
 
     const linkStyle: React.CSSProperties = {
         margin: '5px',
