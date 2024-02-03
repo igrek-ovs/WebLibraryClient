@@ -1,30 +1,11 @@
-import React, { useEffect, useState } from 'react';
-import {Link, useNavigate} from 'react-router-dom';
-import api from '../services/api';
-import { Button } from "@mui/material";
-import { useAppDispatch, useAppSelector } from "../hooks/redux";
-import BookSlice, { removeBook, setBooks } from '../store/reducers/BookSlice';
-import PageSlice, { setCurrentPage, setTotalPages, decrementTotalPages } from '../store/reducers/PageSlice';
-
-export interface Book {
-    id: number;
-    title: string;
-    genre: string;
-    authorId: number;
-    author: Author | null;
-    imagePath: string;
-}
-
-export interface Author {
-    id: number;
-    name: string;
-    description: string;
-    books: Book[];
-}
-
-interface BookDto extends Book {
-    authorName: string;
-}
+import { Box, Button, List, ListItem, Typography } from "@mui/material";
+import React, { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "../../hooks/redux";
+import api from "../../services/api";
+import { removeBook, setBooks } from "../../store/reducers/BookSlice";
+import { decrementTotalPages, setCurrentPage, setTotalPages } from "../../store/reducers/PageSlice";
+import { bookContainerStyle, createLinkStyle, deleteLinkStyle, updateLinkStyle } from "./components";
 
 const BookListComponent: React.FC = () => {
     const [books, setBooksLocal] = useState<any[]>([]);
@@ -116,79 +97,42 @@ const BookListComponent: React.FC = () => {
         }
     };
 
-
     const handlePageChange = (pageNumber: number) => {
         dispatch(setCurrentPage(pageNumber));
     };
 
-    const bookContainerStyle: React.CSSProperties = {
-        border: '1px solid #ddd',
-        borderRadius: '5px',
-        padding: '10px',
-        marginBottom: '10px',
-    };
-
-    const linkStyle: React.CSSProperties = {
-        margin: '5px',
-        padding: '8px 15px',
-        color: 'white',
-        textDecoration: 'none',
-        fontSize: '14px',
-        borderRadius: '5px',
-        cursor: 'pointer',
-    };
-
-    const updateLinkStyle: React.CSSProperties = {
-        ...linkStyle,
-        backgroundColor: 'green',
-    };
-
-    const deleteLinkStyle: React.CSSProperties = {
-        ...linkStyle,
-        backgroundColor: 'red',
-    };
-
-    const getLinkStyle: React.CSSProperties = {
-        ...linkStyle,
-        backgroundColor: 'blue',
-    };
-
-    const createLinkStyle: React.CSSProperties = {
-        ...linkStyle,
-        backgroundColor: 'gray',
-    };
-
     return (
-        <div>
-            <h1>Book List</h1>
-            <ul>
-                {booksRedux.map((book: BookDto) => (
-                    <li key={book.id}>
-                        <div style={bookContainerStyle}>
-                            <strong>{book.title}</strong>
-                            <p>Genre: {book.genre}</p>
-                            <p>Author: {book.authorName}</p>
-                            {book.imagePath ? (
-                                <img src={book.imagePath} alt={`Image for ${book.title}`} style={{ maxWidth: '200px' }}/>
-                            ) : (
-                                <p>No image</p>
-                            )}
-                            <Link to={`/update-book/${book.id}`} style={updateLinkStyle}>
-                                Update Book
-                            </Link>
-                            <Button onClick={() => deleteBook(book.id)} style={deleteLinkStyle}>
-                                Delete Book
-                            </Button>
-
-                        </div>
-                    </li>
-                ))}
-            </ul>
+        <Box>
+            <Box>
+                <Typography variant="h4">Book List</Typography>
+                <List>
+                    {booksRedux.map((book:any) => (
+                      <ListItem key={book.id}>
+                          <Box style={bookContainerStyle}>
+                              <Typography variant="h6">{book.title}</Typography>
+                              <Typography>Genre: {book.genre}</Typography>
+                              <Typography>Author: {book.authorName}</Typography>
+                              {book.imagePath ? (
+                                <img src={book.imagePath} alt={`Image for ${book.title}`} style={{ maxWidth: '200px' }} />
+                              ) : (
+                                <Typography>No image</Typography>
+                              )}
+                              <Link to={`/update-book/${book.id}`} style={updateLinkStyle}>
+                                  Update Book
+                              </Link>
+                              <Button onClick={() => deleteBook(book.id)} style={deleteLinkStyle}>
+                                  Delete Book
+                              </Button>
+                          </Box>
+                      </ListItem>
+                    ))}
+                </List>
+            </Box>
 
             <Link to="/create-book" style={createLinkStyle}>
                 Create New Book
             </Link>
-            <div style={{ marginTop: '10px' }}>
+            <Box style={{ marginTop: '10px' }}>
                 <span>Pages: </span>
                 {[...Array(pageRedux.totalPages).keys()].map((pageNumber) => (
                     <Link
@@ -200,8 +144,8 @@ const BookListComponent: React.FC = () => {
                         {pageNumber + 1}
                     </Link>
                 ))}
-            </div>
-        </div>
+            </Box>
+        </Box>
     );
 };
 

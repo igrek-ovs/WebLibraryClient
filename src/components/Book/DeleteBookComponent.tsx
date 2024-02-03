@@ -1,6 +1,7 @@
-import React, { useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import api from '../services/api';
+import { Box } from "@mui/material";
+import React, { useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import api from "../../services/api";
 
 const DeleteBookComponent: React.FC = () => {
     const { bookId } = useParams<{ bookId: string }>();
@@ -28,20 +29,16 @@ const DeleteBookComponent: React.FC = () => {
                 navigate('/login');
             } catch (error) {
                 console.error('DeleteBook failed:', error);
-                // Здесь можно добавить логику обработки ошибок, например, вывод уведомления для пользователя
             }
         };
 
-        // Вызов функции удаления книги только при монтировании компонента
         deleteBook();
-
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [bookId]); // bookId добавлен в зависимости, чтобы вызывать useEffect только при изменении bookId
+    }, [bookId]);
 
     return (
-        <div>
+        <Box>
             Deleting...
-        </div>
+        </Box>
     );
 };
 

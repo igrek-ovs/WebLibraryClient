@@ -1,12 +1,9 @@
-import React, { useState } from 'react';
-import { Link, Navigate } from 'react-router-dom';
-import api from '../services/api';
-import Snackbar from '@mui/material/Snackbar';
-import MuiAlert, { AlertProps } from '@mui/material/Alert';
-
-interface AuthPageProps {
-    setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
-}
+import MuiAlert, { AlertProps } from "@mui/material/Alert";
+import Snackbar from "@mui/material/Snackbar";
+import React, { useState } from "react";
+import { Link, Navigate } from "react-router-dom";
+import api from "../../services/api";
+import { AuthPageProps } from "./types";
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>((props, ref) => (
     <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />
@@ -32,7 +29,6 @@ const AuthForm: React.FC<AuthPageProps> = ({ setIsAuthenticated }) => {
             localStorage.setItem('accessToken', response.data.accessToken);
             localStorage.setItem('refreshToken', response.data.refreshToken.token);
             localStorage.setItem('userId', response.data.refreshToken.userId);
-            //console.log('Successfully logged in:', token);
             setIsAuthenticated(true);
             setRedirectToBooks(true);
         } catch (error) {

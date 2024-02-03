@@ -1,20 +1,19 @@
-interface Author {
+export interface Author {
     id: number;
     name: string;
     description: string;
     books: Book[];
 }
 
-interface Book {
+export interface Book {
     id: number;
     title: string;
     genre: string;
     authorId: number;
     author: Author | null;
+    imagePath:string;
 }
 
-interface BookDto extends Book {
+export interface BookDto extends Book {
     authorName: string;
 }
-
-export {};

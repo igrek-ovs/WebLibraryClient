@@ -27,4 +27,5 @@ export const pageSlice = createSlice({
 });
 
 export const { setCurrentPage, setTotalPages, decrementTotalPages } = pageSlice.actions;
+
 export default pageSlice.reducer;

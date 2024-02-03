@@ -1,25 +1,6 @@
-import {createSlice, PayloadAction} from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { BookDto } from "../../models";
 
-
-interface Author {
-    id: number;
-    name: string;
-    description: string;
-    books: Book[];
-}
-
-interface Book {
-    id: number;
-    title: string;
-    genre: string;
-    authorId: number;
-    author: Author | null;
-    imagePath:string;
-}
-
-interface BookDto extends Book {
-    authorName: string;
-}
 interface BookState {
     books: BookDto[];
     isLoading: boolean;
@@ -30,7 +11,6 @@ const initialState: BookState = {
     books: [],
     isLoading: false,
     error: ''
-
 }
 
 export const bookSlice = createSlice({
@@ -45,5 +25,7 @@ export const bookSlice = createSlice({
         }
     },
 });
+
 export const { removeBook, setBooks} = bookSlice.actions;
+
 export default bookSlice.reducer;

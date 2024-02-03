@@ -1,37 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import api from '../services/api';
-import { Link } from 'react-router-dom';
-import { Button } from "@mui/material";
-import { useDispatch, useSelector } from "react-redux";
-import BookSlice, {removeBook, setBooks} from '../store/reducers/BookSlice'
-import {useAppDispatch, useAppSelector} from "../hooks/redux";
+import { Box, Button, List, ListItem, Typography } from "@mui/material";
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "../../hooks/redux";
+import { BookDto } from "../../models";
+import api from "../../services/api";
+import { removeBook, setBooks } from "../../store/reducers/BookSlice";
+import { bookContainerStyle, createLinkStyle, deleteLinkStyle, getLinkStyle, updateLinkStyle } from "./components";
 
-export const bookContainerStyle: React.CSSProperties = {
-    border: '1px solid #ddd',
-    borderRadius: '5px',
-    padding: '10px',
-    marginBottom: '10px',
-};
-
-export interface Book {
-    id: number;
-    title: string;
-    genre: string;
-    authorId: number;
-    author: Author | null;
-    imagePath: string;
-}
-
-export interface Author {
-    id: number;
-    name: string;
-    description: string;
-    books: Book[];
-}
-
-export interface BookDto extends Book {
-    authorName: string;
-}
 const BookListComponent = () => {
     const [booksLocal, setBooksLocal] = useState<any[]>([]);
     const dispatch = useAppDispatch();
@@ -76,51 +51,19 @@ const BookListComponent = () => {
         }
     }
 
-
-
-    const linkStyle: React.CSSProperties = {
-        margin: '5px',
-        padding: '8px 15px',
-        color: 'white',
-        textDecoration: 'none',
-        fontSize: '14px',
-        borderRadius: '5px',
-        cursor: 'pointer',
-    };
-
-    const updateLinkStyle: React.CSSProperties = {
-        ...linkStyle,
-        backgroundColor: 'green',
-    };
-
-    const deleteLinkStyle: React.CSSProperties = {
-        ...linkStyle,
-        backgroundColor: 'red',
-    };
-
-    const getLinkStyle: React.CSSProperties = {
-        ...linkStyle,
-        backgroundColor: 'blue',
-    };
-
-    const createLinkStyle: React.CSSProperties = {
-        ...linkStyle,
-        backgroundColor: 'gray',
-    };
-
     return (
-        <div>
-            <h1>Book List</h1>
-            <ul>
+        <Box>
+            <Typography variant="h1">Book List</Typography>
+            <List>
                 {booksRedux.map((book: BookDto) => (
-                    <li key={book.id} style={bookContainerStyle}>
-                        <strong>{book.title}</strong>
-                        <p>Genre: {book.genre}</p>
-                        <p>Author: {book.authorName}</p>
+                    <ListItem key={book.id} style={bookContainerStyle}>
+                        <Typography variant="h6">{book.title}</Typography>
+                        <Typography>Genre: {book.genre}</Typography>
+                        <Typography>Author: {book.authorName}</Typography>
                         {book.imagePath ? (
-                            <img src={book.imagePath} alt={`Image for ${book.title}`} style={{ maxWidth: '200px' }}/>
+                          <img src={book.imagePath} alt={`Image for ${book.title}`} style={{ maxWidth: '200px' }} />
                         ) : (
-                            <p>No image</p>
+                          <Typography>No image</Typography>
                         )}
                         <Link to={`/update-book/${book.id}`} style={updateLinkStyle}>
                             Update Book
@@ -131,13 +74,13 @@ const BookListComponent = () => {
                         <Link to={`/get-book/${book.id}`} style={getLinkStyle}>
                             Get Book by ID
                         </Link>
-                    </li>
+                    </ListItem>
                 ))}
-            </ul>
+            </List>
             <Link to="/create-book" style={createLinkStyle}>
                 Create New Book
             </Link>
-        </div>
+        </Box>
     );
 }
 

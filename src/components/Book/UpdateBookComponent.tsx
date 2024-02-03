@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import api from '../services/api';
+import { Box, Button, FormControl, InputLabel, MenuItem, Select, TextField, Typography } from "@mui/material";
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import api from "../../services/api";
 
 const UpdateBookComponent: React.FC = () => {
     const { bookId } = useParams<{ bookId: string }>();
@@ -73,52 +74,54 @@ const UpdateBookComponent: React.FC = () => {
     };
 
     return (
-        <div>
-            <h1>Update Book</h1>
-            <label>
-                Title:
-                <input
-                    type="text"
-                    value={bookToUpdate.title}
-                    onChange={(e) => setBookToUpdate({ ...bookToUpdate, title: e.target.value })}
-                />
-            </label>
-            <br />
-            <label>
-                Genre:
-                <input
-                    type="text"
-                    value={bookToUpdate.genre}
-                    onChange={(e) => setBookToUpdate({ ...bookToUpdate, genre: e.target.value })}
-                />
-            </label>
-            <br />
-            <label>
-                Author:
-                <select
-                    value={bookToUpdate.authorId}
-                    onChange={(e) => setBookToUpdate({ ...bookToUpdate, authorId: parseInt(e.target.value, 10) })}
-                >
-                    {authors.map((author) => (
-                        <option key={author.id} value={author.id}>
-                            {author.name}
-                        </option>
-                    ))}
-                </select>
-            </label>
-            <br />
-            <label>
-                Image:
-                {bookToUpdate.imagePath ? (
-                    <img src={bookToUpdate.imagePath} alt="Book Cover" style={{ maxWidth: '200px' }} />
-                ) : (
-                    <span>No Image</span>
-                )}
-                <input type="file" accept="image/*" onChange={(e) => e.target.files && setImageFile(e.target.files[0])} />
-            </label>
-            <br />
-            <button onClick={handleUpdateBook}>Update Book</button>
-        </div>
+      <Box>
+          <Typography variant="h1">Update Book</Typography>
+          <FormControl fullWidth>
+              <InputLabel>Title:</InputLabel>
+              <TextField
+                type="text"
+                value={bookToUpdate.title}
+                onChange={(e) => setBookToUpdate({ ...bookToUpdate, title: e.target.value })}
+              />
+          </FormControl>
+          <br />
+          <FormControl fullWidth>
+              <InputLabel>Genre:</InputLabel>
+              <TextField
+                type="text"
+                value={bookToUpdate.genre}
+                onChange={(e) => setBookToUpdate({ ...bookToUpdate, genre: e.target.value })}
+              />
+          </FormControl>
+          <br />
+          <FormControl fullWidth>
+              <InputLabel>Author:</InputLabel>
+              <Select
+                value={bookToUpdate.authorId}
+                onChange={(e) => setBookToUpdate({ ...bookToUpdate, authorId: parseInt(String(e.target.value), 10) })}
+              >
+                  {authors.map((author) => (
+                    <MenuItem key={author.id} value={author.id}>
+                        {author.name}
+                    </MenuItem>
+                  ))}
+              </Select>
+          </FormControl>
+          <br />
+          <FormControl fullWidth>
+              <InputLabel>Image:</InputLabel>
+              {bookToUpdate.imagePath ? (
+                <img src={bookToUpdate.imagePath} alt="Book Cover" style={{ maxWidth: '200px' }} />
+              ) : (
+                <Typography>No Image</Typography>
+              )}
+              <input type="file" accept="image/*" onChange={(e) => e.target.files && setImageFile(e.target.files[0])} />
+          </FormControl>
+          <br />
+          <Button variant="contained" color="primary" onClick={handleUpdateBook}>
+              Update Book
+          </Button>
+      </Box>
     );
 };
 

@@ -1,10 +1,8 @@
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import api from '../services/api';
-import Snackbar from '@mui/material/Snackbar';
-import MuiAlert, { AlertProps } from '@mui/material/Alert';
-
-
+import MuiAlert, { AlertProps } from "@mui/material/Alert";
+import Snackbar from "@mui/material/Snackbar";
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import api from "../../services/api";
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>((props, ref) => (
     <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />
@@ -17,12 +15,11 @@ const RegisterForm: React.FC = () => {
 
     const navigate = useNavigate();
     const [errorSnackbarOpen, setErrorSnackbarOpen] = useState(false);
+
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
         setRegisterUser((prevUser) => ({ ...prevUser, [name]: value }));
     };
-
-
 
     const handleRegister = async () => {
         try {
