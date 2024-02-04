@@ -53,10 +53,11 @@ const BookListComponent = () => {
 
     return (
         <Box>
-            <Typography variant="h1">Book List</Typography>
+            <Typography variant="h2">Book List</Typography>
             <List>
                 {booksRedux.map((book: BookDto) => (
                     <ListItem key={book.id} style={bookContainerStyle}>
+                        <Box style={bookContainerStyle}>
                         <Typography variant="h6">{book.title}</Typography>
                         <Typography>Genre: {book.genre}</Typography>
                         <Typography>Author: {book.authorName}</Typography>
@@ -71,9 +72,7 @@ const BookListComponent = () => {
                         <Button onClick={() => deleteBook(book.id)} style={deleteLinkStyle}>
                             Delete Book
                         </Button>
-                        <Link to={`/get-book/${book.id}`} style={getLinkStyle}>
-                            Get Book by ID
-                        </Link>
+                            </Box>
                     </ListItem>
                 ))}
             </List>

@@ -104,12 +104,12 @@ const BookListComponent: React.FC = () => {
     return (
         <Box>
             <Box>
-                <Typography variant="h4">Book List</Typography>
+                <Typography variant="h3">Book List</Typography>
                 <List>
                     {booksRedux.map((book:any) => (
                       <ListItem key={book.id}>
                           <Box style={bookContainerStyle}>
-                              <Typography variant="h6">{book.title}</Typography>
+                              <Typography variant="h5"><strong>{book.title}</strong></Typography>
                               <Typography>Genre: {book.genre}</Typography>
                               <Typography>Author: {book.authorName}</Typography>
                               {book.imagePath ? (

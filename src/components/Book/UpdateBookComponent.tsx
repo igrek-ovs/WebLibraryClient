@@ -75,9 +75,8 @@ const UpdateBookComponent: React.FC = () => {
 
     return (
       <Box>
-          <Typography variant="h1">Update Book</Typography>
+          <Typography variant="h3">Update Book</Typography>
           <FormControl fullWidth>
-              <InputLabel>Title:</InputLabel>
               <TextField
                 type="text"
                 value={bookToUpdate.title}
@@ -86,7 +85,6 @@ const UpdateBookComponent: React.FC = () => {
           </FormControl>
           <br />
           <FormControl fullWidth>
-              <InputLabel>Genre:</InputLabel>
               <TextField
                 type="text"
                 value={bookToUpdate.genre}
@@ -95,7 +93,6 @@ const UpdateBookComponent: React.FC = () => {
           </FormControl>
           <br />
           <FormControl fullWidth>
-              <InputLabel>Author:</InputLabel>
               <Select
                 value={bookToUpdate.authorId}
                 onChange={(e) => setBookToUpdate({ ...bookToUpdate, authorId: parseInt(String(e.target.value), 10) })}
@@ -109,7 +106,6 @@ const UpdateBookComponent: React.FC = () => {
           </FormControl>
           <br />
           <FormControl fullWidth>
-              <InputLabel>Image:</InputLabel>
               {bookToUpdate.imagePath ? (
                 <img src={bookToUpdate.imagePath} alt="Book Cover" style={{ maxWidth: '200px' }} />
               ) : (
