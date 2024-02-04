@@ -39,3 +39,10 @@ export const booksWithPagesLinkStyle: React.CSSProperties = {
   ...linkStyle,
   backgroundColor: 'red',
 };
+
+export const userNameStyle: React.CSSProperties = {
+  position: 'fixed',
+  top: '10px',
+  right: '10px',
+  fontSize: '20px',
+};

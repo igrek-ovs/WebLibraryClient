@@ -1,5 +1,4 @@
-import { Box, Button, TextField, Typography } from "@mui/material";
-import React, { useRef, useState } from "react";
+import React, { useState, useRef } from 'react';
 import api from "../../services/api";
 
 const CreateBookComponent: React.FC = () => {
@@ -52,49 +51,51 @@ const CreateBookComponent: React.FC = () => {
         }
     };
 
+    const handleImageChange = () => {
+    };
+
     return (
-      <Box>
-          <Typography variant="h1">Create Book</Typography>
-          <label>
-              Image:
-              <input
-                type="file"
-                ref={fileInputRef}
-                accept="image/*"
-              />
-          </label>
-          <br />
-          <label>
-              Title:
-              <TextField
-                type="text"
-                value={newBook.title}
-                onChange={(e) => setNewBook({ ...newBook, title: e.target.value })}
-              />
-          </label>
-          <br />
-          <label>
-              Genre:
-              <TextField
-                type="text"
-                value={newBook.genre}
-                onChange={(e) => setNewBook({ ...newBook, genre: e.target.value })}
-              />
-          </label>
-          <br />
-          <label>
-              Author ID:
-              <TextField
-                type="number"
-                value={newBook.authorId || ''}
-                onChange={(e) => setNewBook({ ...newBook, authorId: Number(e.target.value) })}
-              />
-          </label>
-          <br />
-          <Button variant="contained" color="primary" onClick={handleCreateBook}>
-              Create Book
-          </Button>
-      </Box>
+        <div>
+            <h1>Create Book</h1>
+            <label>
+                Image:
+                <input
+                    type="file"
+                    ref={fileInputRef}
+                    accept="image/*"
+                    onChange={handleImageChange}
+                />
+            </label>
+            <br />
+            <label>
+                Title:
+                <input
+                    type="text"
+                    value={newBook.title}
+                    onChange={(e) => setNewBook({ ...newBook, title: e.target.value })}
+                />
+            </label>
+            <br />
+            <label>
+                Genre:
+                <input
+                    type="text"
+                    value={newBook.genre}
+                    onChange={(e) => setNewBook({ ...newBook, genre: e.target.value })}
+                />
+            </label>
+            <br />
+            <label>
+                Author ID:
+                <input
+                    type="number"
+                    value={newBook.authorId || ''}
+                    onChange={(e) => setNewBook({ ...newBook, authorId: Number(e.target.value) })}
+                />
+            </label>
+            <br />
+            <button onClick={handleCreateBook}>Create Book</button>
+        </div>
     );
 };
 
