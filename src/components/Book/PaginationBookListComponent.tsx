@@ -6,13 +6,17 @@ import api from "../../services/api";
 import { removeBook, setBooks } from "../../store/reducers/BookSlice";
 import { decrementTotalPages, setCurrentPage, setTotalPages } from "../../store/reducers/PageSlice";
 import { bookContainerStyle, createLinkStyle, deleteLinkStyle, updateLinkStyle } from "./components";
+import RatingDialog from "./RatingDialog";
 
 const BookListComponent: React.FC = () => {
     const [books, setBooksLocal] = useState<any[]>([]);
+    const [ratings, setRatings] = useState<{ [key: number]: number }>({});
     const dispatch = useAppDispatch();
     const booksRedux = useAppSelector((state: any) => state.bookReducer.books);
     const pageRedux = useAppSelector((state: any) => state.pageReducer);
     const navigate = useNavigate();
+    const [ratingDialogOpen, setRatingDialogOpen] = useState<boolean>(false);
+    const [selectedBookId, setSelectedBookId] = useState<number | null>(null);
 
     useEffect(() => {
         const fetchPages = async () => {
@@ -27,17 +31,17 @@ const BookListComponent: React.FC = () => {
         fetchPages();
     }, []);
 
-    useEffect(() => {
-        const fetchBooks = async () => {
-            try {
-                const response = await api.get(`/api/Book/GetBooksOnPage/${pageRedux.currentPage}`);
-                setBooksLocal(response.data);
-                dispatch(setBooks(response.data));
-            } catch (error) {
-                console.error('Error fetching books:', error);
-            }
-        };
+    const fetchBooks = async () => {
+        try {
+            const response = await api.get(`/api/Book/GetBooksOnPage/${pageRedux.currentPage}`);
+            setBooksLocal(response.data);
+            dispatch(setBooks(response.data));
+        } catch (error) {
+            console.error('Error fetching books:', error);
+        }
+    };
 
+    useEffect(() => {
         fetchBooks();
     }, [pageRedux.currentPage]);
 
@@ -97,9 +101,55 @@ const BookListComponent: React.FC = () => {
         }
     };
 
+    const fetchBookRatings = async (bookId: number) => {
+        try {
+            const response = await api.get(`/api/BookRating/get-rating-for-book/${bookId}`);
+            setRatings((prevRatings) => ({
+                ...prevRatings,
+                [bookId]: response.data,
+            }));
+        } catch (error) {
+            console.error(`Error fetching ratings for book ${bookId}:`, error);
+        }
+    };
+
+    useEffect(() => {
+        booksRedux.forEach((book: any) => {
+            fetchBookRatings(book.id);
+        });
+    }, [booksRedux]);
+
     const handlePageChange = (pageNumber: number) => {
         dispatch(setCurrentPage(pageNumber));
     };
+
+    const handleRatingSubmit = async (rating: number) => {
+        if (selectedBookId !== null) {
+            try {
+                const authToken = localStorage.getItem('accessToken');
+                if (!authToken) {
+                    console.error('User is not authenticated');
+                    return;
+                }
+
+                const response = await api.post('/api/BookRating/', {
+                    bookId: selectedBookId,
+                    userId: localStorage.getItem('userId'),
+                    rating: rating
+                },);
+
+                await fetchBooks();
+
+                console.log('Rating submitted successfully:', response.data);
+            } catch (error) {
+                console.error('Error submitting rating:', error);
+            } finally {
+                setRatingDialogOpen(false);
+                setSelectedBookId(null);
+            }
+        }
+    };
+
 
     return (
         <Box>
@@ -117,12 +167,25 @@ const BookListComponent: React.FC = () => {
                               ) : (
                                 <Typography>No image</Typography>
                               )}
+                              {ratings[book.id] === -1 ? (
+                                  <Typography>Rating: ---</Typography>
+                              ) : (
+                                  <Typography>Rating: {ratings[book.id]}</Typography>
+                              )}
                               <Link to={`/update-book/${book.id}`} style={updateLinkStyle}>
                                   Update Book
                               </Link>
                               <Button onClick={() => deleteBook(book.id)} style={deleteLinkStyle}>
                                   Delete Book
                               </Button>
+                              <Button style={updateLinkStyle} onClick={() => { setRatingDialogOpen(true); setSelectedBookId(book.id); }}>
+                                  Rate Book
+                              </Button>
+                              <RatingDialog
+                                  open={ratingDialogOpen}
+                                  onClose={() => { setRatingDialogOpen(false); setSelectedBookId(null); }}
+                                  onRatingSubmit={handleRatingSubmit}
+                              />
                           </Box>
                       </ListItem>
                     ))}

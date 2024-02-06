@@ -21,9 +21,9 @@ const GetBookByIdComponent: React.FC = () => {
 
     return (
         <div>
-            <h1>Get Book By ID</h1>
+            <h1>Get Book By Name</h1>
             <label>
-                Book NAME:
+                Book Name:
                 <input
                     type="text"
                     onChange={handleSearchTermChange}

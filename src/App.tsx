@@ -91,12 +91,17 @@ const App: React.FC<AppProps> = () => {
                 )}
                 <input type="file" accept="image/*" onChange={handleAvatarUpload} style={{marginLeft: '10px'}}/>
             </div>
-            <Link to="/register" style={registerLinkStyle}>
-                Register
-            </Link>
-            <Link to="/login" style={loginLinkStyle}>
-                Log In
-            </Link>
+            {!isAuthenticated ? (
+               <>
+                   <Link to="/register" style={registerLinkStyle}>
+                       Register
+                   </Link>
+                   <Link to="/login" style={loginLinkStyle}>
+                       Log In
+                   </Link>
+               </>
+            ):null}
+
             <Link to="/books" style={booksLinkStyle}>
                 List of Books
             </Link>
@@ -110,7 +115,7 @@ const App: React.FC<AppProps> = () => {
                 <Link to="/logout" style={{...linkStyle, backgroundColor: 'purple'}}>
                     Logout
                 </Link>
-            ) : null}
+            ):null}
 
             <Routes>
                 <Route path="/register" element={<RegisterPage/>}/>
