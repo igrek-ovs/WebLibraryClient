@@ -46,3 +46,13 @@ export const userNameStyle: React.CSSProperties = {
   right: '10px',
   fontSize: '20px',
 };
+
+export const commonStyle: React.CSSProperties = {
+  position: 'fixed',
+  top: '10px',
+  right: '10px',
+  fontSize: '20px',
+  display: 'flex',
+  alignItems: 'flex-start',
+  justifyContent: 'flex-end',
+};
