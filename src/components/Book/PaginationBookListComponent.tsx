@@ -181,6 +181,9 @@ const BookListComponent: React.FC = () => {
                               <Button style={updateLinkStyle} onClick={() => { setRatingDialogOpen(true); setSelectedBookId(book.id); }}>
                                   Rate Book
                               </Button>
+                              <Link to={`/comments/${book.id}`} style={updateLinkStyle}>
+                                  Leave Comment
+                              </Link>
                               <RatingDialog
                                   open={ratingDialogOpen}
                                   onClose={() => { setRatingDialogOpen(false); setSelectedBookId(null); }}

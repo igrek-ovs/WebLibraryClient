@@ -9,6 +9,7 @@ import DeleteBookComponent from "./components/Book/DeleteBookComponent";
 import GetBookByNameComponent from "./components/Book/GetBookByNameComponent";
 import GetBooksOnDifPages from "./components/Book/PaginationBookListComponent";
 import UpdateBookComponent from "./components/Book/UpdateBookComponent";
+import BookCommentsComponent from "./components/Book/BookCommentsComponent";
 import {
     booksLinkStyle,
     booksWithPagesLinkStyle, commonStyle,
@@ -130,6 +131,7 @@ const App: React.FC<AppProps> = () => {
                 <Route path="/get-book" element={<GetBookByNameComponent/>}/>
                 <Route path="/get-pages" element={<GetBooksOnDifPages/>}/>
                 <Route path="/logout" element={<LogoutComponent/>}/>
+                <Route path="/comments/:bookId" element={<BookCommentsComponent/>}/>
             </Routes>
         </div>
     );
