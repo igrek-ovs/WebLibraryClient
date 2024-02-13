@@ -10,6 +10,7 @@ import GetBookByNameComponent from "./components/Book/GetBookByNameComponent";
 import GetBooksOnDifPages from "./components/Book/PaginationBookListComponent";
 import UpdateBookComponent from "./components/Book/UpdateBookComponent";
 import BookCommentsComponent from "./components/Book/BookCommentsComponent";
+import StripePaymentComponent from "./components/Auth/StripePaymentComponent";
 import {
     booksLinkStyle,
     booksWithPagesLinkStyle, commonStyle,
@@ -21,6 +22,10 @@ import {
 } from "./styles";
 import {TextField} from "@mui/material";
 import api from "./services/api";
+import {Elements} from "@stripe/react-stripe-js";
+import {loadStripe} from "@stripe/stripe-js";
+
+const stripePromise = loadStripe('pk_test_51OigUNE8ymFyMa1QLWG6BzRzddxwPKYY26sWaEnA52imRxytlbOB4Edd6tOBa5RehKeHhDcYV8tybSx0hL6VYZgI00ZOJUyex4');
 
 interface AppProps {
 }
@@ -79,6 +84,11 @@ const App: React.FC<AppProps> = () => {
         }
     };
 
+    const options = {
+        // passing the client secret obtained from the server
+        clientSecret: 'sk_test_51OigUNE8ymFyMa1Qfq2bOob0RIRGBx4g0ROqM5WNxrwW38z7Bm9pPQK13F7hMFndGCLSGoQA2nG9RdqLYIGu5MM100bU4PBA9L',
+    };
+
     return (
         <div className="App" style={containerStyle}>
             <div style={commonStyle}>
@@ -109,6 +119,9 @@ const App: React.FC<AppProps> = () => {
             <Link to="/get-pages" style={booksWithPagesLinkStyle}>
                 List of Books With Pages
             </Link>
+            <Link to="/payment" style={booksWithPagesLinkStyle}>
+                Payment
+            </Link>
             <Link to={`/get-book`} style={booksLinkStyle}>
                 Get Book by NAME
             </Link>
@@ -132,6 +145,7 @@ const App: React.FC<AppProps> = () => {
                 <Route path="/get-pages" element={<GetBooksOnDifPages/>}/>
                 <Route path="/logout" element={<LogoutComponent/>}/>
                 <Route path="/comments/:bookId" element={<BookCommentsComponent/>}/>
+                <Route path="/payment" element={<Elements stripe={stripePromise}><StripePaymentComponent/></Elements>}/>
             </Routes>
         </div>
     );
