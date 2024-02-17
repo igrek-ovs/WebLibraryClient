@@ -7,6 +7,7 @@ import { removeBook, setBooks } from "../../store/reducers/BookSlice";
 import { decrementTotalPages, setCurrentPage, setTotalPages } from "../../store/reducers/PageSlice";
 import { bookContainerStyle, createLinkStyle, deleteLinkStyle, updateLinkStyle } from "./components";
 import RatingDialog from "./RatingDialog";
+import {booksContainerStyle, buttonStyle, genreAuthorStyle, imageStyle, lnStyle} from "../../styles";
 
 const BookListComponent: React.FC = () => {
     const [books, setBooksLocal] = useState<any[]>([]);
@@ -156,44 +157,50 @@ const BookListComponent: React.FC = () => {
             <Box>
                 <Typography variant="h3">Book List</Typography>
                 <List>
-                    {booksRedux.map((book:any) => (
-                      <ListItem key={book.id}>
-                          <Box style={bookContainerStyle}>
-                              <Typography variant="h5"><strong>{book.title}</strong></Typography>
-                              <Typography>Genre: {book.genre}</Typography>
-                              <Typography>Author: {book.authorName}</Typography>
-                              {book.imagePath ? (
-                                <img src={book.imagePath} alt={`Image for ${book.title}`} style={{ maxWidth: '200px' }} />
-                              ) : (
-                                <Typography>No image</Typography>
-                              )}
-                              {ratings[book.id] === -1 ? (
-                                  <Typography>Rating: ---</Typography>
-                              ) : (
-                                  <Typography>Rating: {ratings[book.id]}</Typography>
-                              )}
-                              <Link to={`/update-book/${book.id}`} style={updateLinkStyle}>
-                                  Update Book
-                              </Link>
-                              <Button onClick={() => deleteBook(book.id)} style={deleteLinkStyle}>
-                                  Delete Book
-                              </Button>
-                              <Button style={updateLinkStyle} onClick={() => { setRatingDialogOpen(true); setSelectedBookId(book.id); }}>
-                                  Rate Book
-                              </Button>
-                              <Link to={`/comments/${book.id}`} style={updateLinkStyle}>
-                                  Leave Comment
-                              </Link>
-                              <RatingDialog
-                                  open={ratingDialogOpen}
-                                  onClose={() => { setRatingDialogOpen(false); setSelectedBookId(null); }}
-                                  onRatingSubmit={handleRatingSubmit}
-                              />
-                          </Box>
-                      </ListItem>
+                    {booksRedux.map((book: any) => (
+                        <ListItem key={book.id}>
+                            <Box style={booksContainerStyle}>
+                                <Typography variant="h5"><strong>{book.title}</strong></Typography>
+                                <Box style={genreAuthorStyle}>
+                                    <Typography>Genre: {book.genre}</Typography>
+                                    <Typography>Author: {book.authorName}</Typography>
+                                </Box>
+                                {book.imagePath ? (
+                                    <img src={book.imagePath} alt={`Image for ${book.title}`} style={imageStyle} />
+                                ) : (
+                                    <Typography>No image</Typography>
+                                )}
+                                {ratings[book.id] === -1 ? (
+                                    <Typography>Rating: ---</Typography>
+                                ) : (
+                                    <Typography>Rating: {ratings[book.id]}</Typography>
+                                )}
+                                <Link to={`/update-book/${book.id}`} style={lnStyle}>
+                                    <Button style={buttonStyle}>
+                                        Update Book
+                                    </Button>
+                                </Link>
+                                <Button style={buttonStyle} onClick={() => deleteBook(book.id)}>
+                                    Delete Book
+                                </Button>
+                                <Button style={buttonStyle} onClick={() => { setRatingDialogOpen(true); setSelectedBookId(book.id); }}>
+                                    Rate Book
+                                </Button>
+                                <Link to={`/comments/${book.id}`} style={lnStyle}>
+                                    <Button style={buttonStyle}>
+                                        Leave Comment
+                                    </Button>
+                                </Link>
+                                <RatingDialog
+                                    open={ratingDialogOpen}
+                                    onClose={() => { setRatingDialogOpen(false); setSelectedBookId(null); }}
+                                    onRatingSubmit={handleRatingSubmit}
+                                />
+                            </Box>
+                        </ListItem>
                     ))}
                 </List>
-            </Box>
+        </Box>
 
             <Link to="/create-book" style={createLinkStyle}>
                 Create New Book

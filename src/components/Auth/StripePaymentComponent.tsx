@@ -56,8 +56,7 @@ const StripePaymentForm: React.FC = () => {
                     style: {
                         base: {
                             fontSize: '16px',
-                            fontFamily: 'Arial, sans-serif'
-
+                            fontFamily: 'Arial, sans-serif',
                         }
                     }
                 }}/>
