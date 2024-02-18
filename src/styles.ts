@@ -117,3 +117,32 @@ export const imageStyle: React.CSSProperties = {
   maxWidth: '200px',
   marginBottom: '5px',
 };
+
+export const formContainerStyle: React.CSSProperties = {
+  maxWidth: "400px",
+  margin: "0 auto",
+  padding: "20px",
+  backgroundColor: "#f0f0f0",
+  borderRadius: "5px",
+  boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)",
+};
+
+export const inputStyle: React.CSSProperties = {
+  marginBottom: "10px",
+  width: "100%",
+  padding: "8px",
+  borderRadius: "5px",
+  border: "1px solid #ccc",
+  boxSizing: "border-box",
+};
+
+export const registerBbuttonStyle: React.CSSProperties = {
+  width: "100%",
+  padding: "10px",
+  borderRadius: "5px",
+  border: "none",
+  backgroundColor: "#2196f3",
+  color: "#fff",
+  cursor: "pointer",
+  transition: "background-color 0.3s",
+};

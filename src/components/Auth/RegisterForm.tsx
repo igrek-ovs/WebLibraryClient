@@ -3,6 +3,7 @@ import Snackbar from "@mui/material/Snackbar";
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import api from "../../services/api";
+import {buttonStyle, formContainerStyle, inputStyle, registerBbuttonStyle} from "../../styles";
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>((props, ref) => (
     <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />
@@ -36,21 +37,30 @@ const RegisterForm: React.FC = () => {
         setErrorSnackbarOpen(false);
     };
 
+    const handleMouseLeave = (e:any) => {
+        e.target.style.backgroundColor = "#2196f3";
+    };
+
+    const handleMouseEnter = (e:any) => {
+        e.target.style.backgroundColor = "#0d47a1";
+    };
+
     return (
-        <div>
+        <div style={formContainerStyle}>
             <h1>Register</h1>
             <form>
                 <label>
                     Username:
-                    <input type="text" name="username" value={registerUser.username} onChange={handleChange} />
+                    <input type="text" name="username" value={registerUser.username} onChange={handleChange} style={inputStyle}/>
                 </label>
                 <br />
                 <label>
                     Password:
-                    <input type="password" name="password" value={registerUser.password} onChange={handleChange} />
+                    <input type="password" name="password" value={registerUser.password} onChange={handleChange} style={inputStyle}/>
                 </label>
                 <br />
-                <button type="button" onClick={handleRegister}>
+                <button type="button" onClick={handleRegister} style={registerBbuttonStyle} onMouseEnter={handleMouseEnter}
+                        onMouseLeave={handleMouseLeave}>
                     Register
                 </button>
             </form>

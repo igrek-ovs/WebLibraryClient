@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import api from "../../services/api";
 import {BookDto} from "../../models";
 import {bookContainerStyle} from "./components";
+import {booksContainerStyle, buttonStyle, genreAuthorStyle, imageStyle, lnStyle} from "../../styles";
+import {Box, Button, List, ListItem, Typography} from "@mui/material";
+
 
 const GetBookByIdComponent: React.FC = () => {
     const [books, setBooks] = useState<any | null>(null);
@@ -30,24 +33,29 @@ const GetBookByIdComponent: React.FC = () => {
                 />
             </label>
             <br/>
-            <ul>
-                {books ? (
-                    books?.map((book: BookDto) => (
-                        <li key={book.id} style={bookContainerStyle}>
-                            <strong>{book.title}</strong>
-                            <p>Genre: {book.genre}</p>
-                            <p>Author: {book.authorName}</p>
-                            {book.imagePath ? (
-                                <img src={book.imagePath} alt={"Image for ${book.title}"} style={{maxWidth: '200px'}}/>
-                            ) : (
-                                <p>No image</p>
-                            )}
-                        </li>
-                    ))
-                ):(
+            <Box>
+                <List>
+                    {books ? (
+                        books?.map((book: BookDto) => (
+                        <ListItem key={book.id}>
+                            <Box style={booksContainerStyle}>
+                                <Typography variant="h5"><strong>{book.title}</strong></Typography>
+                                <Box style={genreAuthorStyle}>
+                                    <Typography>Genre: {book.genre}</Typography>
+                                    <Typography>Author: {book.authorName}</Typography>
+                                </Box>
+                                {book.imagePath ? (
+                                    <img src={book.imagePath} alt={`Image for ${book.title}`} style={imageStyle} />
+                                ) : (
+                                    <Typography>No image</Typography>
+                                )}
+                            </Box>
+                        </ListItem>
+                    ))):(
                     <p>No books </p>
-                )}
-            </ul>
+                    )}
+                </List>
+            </Box>
         </div>
     );
 };

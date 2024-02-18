@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { Link, Navigate } from "react-router-dom";
 import api from "../../services/api";
 import { AuthPageProps } from "./types";
+import {formContainerStyle, inputStyle, registerBbuttonStyle} from "../../styles";
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>((props, ref) => (
     <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />
@@ -45,21 +46,30 @@ const AuthForm: React.FC<AuthPageProps> = ({ setIsAuthenticated }) => {
         return <Navigate to="/books" />;
     }
 
+    const handleMouseLeave = (e:any) => {
+        e.target.style.backgroundColor = "#2196f3";
+    };
+
+    const handleMouseEnter = (e:any) => {
+        e.target.style.backgroundColor = "#0d47a1";
+    };
+
     return (
-        <div>
+        <div style={formContainerStyle}>
             <h1>Login</h1>
             <form>
                 <label>
                     Username:
-                    <input type="text" name="username" value={loginUser.username} onChange={handleChange} />
+                    <input type="text" name="username" value={loginUser.username} onChange={handleChange} style={inputStyle}/>
                 </label>
                 <br />
                 <label>
                     Password:
-                    <input type="password" name="password" value={loginUser.password} onChange={handleChange} />
+                    <input type="password" name="password" value={loginUser.password} onChange={handleChange} style={inputStyle}/>
                 </label>
                 <br />
-                <button type="button" onClick={handleLogin}>
+                <button type="button" onClick={handleLogin} style={registerBbuttonStyle} onMouseEnter={handleMouseEnter}
+                        onMouseLeave={handleMouseLeave}>
                     Login
                 </button>
             </form>
