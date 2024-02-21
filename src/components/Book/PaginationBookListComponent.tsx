@@ -1,11 +1,11 @@
-import { Box, Button, List, ListItem, Typography } from "@mui/material";
-import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { useAppDispatch, useAppSelector } from "../../hooks/redux";
+import {Box, Button, List, ListItem, Typography} from "@mui/material";
+import React, {useEffect, useState} from "react";
+import {Link, useNavigate} from "react-router-dom";
+import {useAppDispatch, useAppSelector} from "../../hooks/redux";
 import api from "../../services/api";
-import { removeBook, setBooks } from "../../store/reducers/BookSlice";
-import { decrementTotalPages, setCurrentPage, setTotalPages } from "../../store/reducers/PageSlice";
-import { bookContainerStyle, createLinkStyle, deleteLinkStyle, updateLinkStyle } from "./components";
+import {removeBook, setBooks} from "../../store/reducers/BookSlice";
+import {decrementTotalPages, setCurrentPage, setTotalPages} from "../../store/reducers/PageSlice";
+import {createLinkStyle} from "./components";
 import RatingDialog from "./RatingDialog";
 import {booksContainerStyle, buttonStyle, genreAuthorStyle, imageStyle, lnStyle} from "../../styles";
 

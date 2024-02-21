@@ -1,6 +1,6 @@
-import { Box } from "@mui/material";
-import React, { useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import {Box} from "@mui/material";
+import React, {useEffect} from "react";
+import {useNavigate, useParams} from "react-router-dom";
 import api from "../../services/api";
 
 const DeleteBookComponent: React.FC = () => {

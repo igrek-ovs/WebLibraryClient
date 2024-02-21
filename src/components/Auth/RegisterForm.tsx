@@ -1,9 +1,9 @@
-import MuiAlert, { AlertProps } from "@mui/material/Alert";
+import MuiAlert, {AlertProps} from "@mui/material/Alert";
 import Snackbar from "@mui/material/Snackbar";
-import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React, {useState} from "react";
+import {Link, useNavigate} from "react-router-dom";
 import api from "../../services/api";
-import {buttonStyle, formContainerStyle, inputStyle, registerBbuttonStyle} from "../../styles";
+import {formContainerStyle, inputStyle, registerBbuttonStyle} from "../../styles";
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>((props, ref) => (
     <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />

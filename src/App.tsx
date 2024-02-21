@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { Link, Route, Routes } from "react-router-dom";
+import React, {useEffect, useState} from "react";
+import {Link, Route, Routes} from "react-router-dom";
 import AuthPage from "./components/Auth/AuthForm";
 import LogoutComponent from "./components/Auth/LogoutComponent";
 import RegisterPage from "./components/Auth/RegisterForm";
@@ -11,21 +11,11 @@ import GetBooksOnDifPages from "./components/Book/PaginationBookListComponent";
 import UpdateBookComponent from "./components/Book/UpdateBookComponent";
 import BookCommentsComponent from "./components/Book/BookCommentsComponent";
 import StripePaymentComponent from "./components/Auth/StripePaymentComponent";
-import { Elements } from "@stripe/react-stripe-js";
-import { loadStripe } from "@stripe/stripe-js";
-import { AppBar, Toolbar, Button } from "@mui/material"; // Добавлены компоненты для навбара
+import {Elements} from "@stripe/react-stripe-js";
+import {loadStripe} from "@stripe/stripe-js";
+import {AppBar, Toolbar} from "@mui/material"; // Добавлены компоненты для навбара
 import api from "./services/api";
-import {
-    avatarStyle,
-    booksLinkStyle,
-    booksWithPagesLinkStyle,
-    commonStyle,
-    containerStyle, inputLabelHoverStyle,
-    linkStyle,
-    loginLinkStyle,
-    registerLinkStyle,
-    userNameStyle,
-} from "./styles";
+import {avatarStyle, commonStyle, containerStyle, inputLabelHoverStyle, linkStyle, userNameStyle,} from "./styles";
 
 const stripePromise = loadStripe(
     "pk_test_51OigUNE8ymFyMa1QLWG6BzRzddxwPKYY26sWaEnA52imRxytlbOB4Edd6tOBa5RehKeHhDcYV8tybSx0hL6VYZgI00ZOJUyex4"
@@ -108,30 +98,37 @@ const App: React.FC<AppProps> = () => {
         <div className="App" style={containerStyle}>
             <AppBar position="static">
                 <Toolbar>
-                    <Link to="/books" style={linkStyle}>
+                    <Link to="/books" style={linkStyle} onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = '#000080'; }}
+                          onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = ''; }}>
                         List of Books
                     </Link>
-                    <Link to="/get-pages" style={linkStyle}>
+                    <Link to="/get-pages" style={linkStyle} onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = '#000080'; }}
+                          onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = ''; }}>
                         List of Books With Pages
                     </Link>
-                    <Link to="/payment" style={linkStyle}>
+                    <Link to="/payment" style={linkStyle} onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = '#000080'; }}
+                          onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = ''; }}>
                         Payment
                     </Link>
-                    <Link to="/get-book" style={linkStyle}>
+                    <Link to="/get-book" style={linkStyle} onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = '#000080'; }}
+                          onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = ''; }}>
                         Get Book by NAME
                     </Link>
                     {!isAuthenticated ? (
                         <>
-                            <Link to="/register" style={linkStyle}>
+                            <Link to="/register" style={linkStyle} onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = '#000080'; }}
+                                  onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = ''; }}>
                                 Register
                             </Link>
-                            <Link to="/login" style={linkStyle}>
+                            <Link to="/login" style={linkStyle} onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = '#000080'; }}
+                                  onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = ''; }}>
                                 Log In
                             </Link>
                         </>
                     ) : null}
                     {isAuthenticated ? (
-                        <Link to="/logout" style={linkStyle} onClick={() => setIsAuthenticated(false)}>
+                        <Link to="/logout" style={linkStyle} onClick={() => setIsAuthenticated(false)} onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = '#000080'; }}
+                              onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = ''; }}>
                             Logout
                         </Link>
                     ) : null}

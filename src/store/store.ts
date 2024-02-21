@@ -1,4 +1,4 @@
-import { combineReducers, configureStore } from "@reduxjs/toolkit";
+import {combineReducers, configureStore} from "@reduxjs/toolkit";
 import bookReducer from "./reducers/BookSlice";
 import pageReducer from "./reducers/PageSlice";
 

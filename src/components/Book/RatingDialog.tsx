@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Slider, Typography } from '@mui/material';
+import React, {useState} from 'react';
+import {Button, Dialog, DialogActions, DialogContent, DialogTitle, Slider, Typography} from '@mui/material';
 
 interface RatingDialogProps {
     open: boolean;

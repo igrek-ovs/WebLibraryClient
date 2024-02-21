@@ -1,5 +1,5 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { BookDto } from "../../models";
+import {createSlice, PayloadAction} from "@reduxjs/toolkit";
+import {BookDto} from "../../models";
 
 interface BookState {
     books: BookDto[];

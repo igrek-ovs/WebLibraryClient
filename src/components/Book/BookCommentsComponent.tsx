@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import { Button, TextField, Typography } from '@mui/material';
-import { useAppDispatch } from '../../hooks/redux';
+import React, {useEffect, useState} from 'react';
+import {Button, TextField, Typography} from '@mui/material';
+import {useAppDispatch} from '../../hooks/redux';
 import api from '../../services/api';
-import { useParams } from 'react-router-dom';
+import {useParams} from 'react-router-dom';
 
 const BookCommentsComponent: React.FC = () => {
     const { bookId } = useParams<{ bookId: string }>();

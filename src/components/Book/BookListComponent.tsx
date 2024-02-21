@@ -1,11 +1,11 @@
-import { Box, Button, List, ListItem, Typography } from "@mui/material";
-import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import { useAppDispatch, useAppSelector } from "../../hooks/redux";
-import { BookDto } from "../../models";
+import {Box, Button, List, ListItem, Typography} from "@mui/material";
+import React, {useEffect, useState} from "react";
+import {Link} from "react-router-dom";
+import {useAppDispatch, useAppSelector} from "../../hooks/redux";
+import {BookDto} from "../../models";
 import api from "../../services/api";
-import { removeBook, setBooks } from "../../store/reducers/BookSlice";
-import { bookContainerStyle, createLinkStyle, deleteLinkStyle, getLinkStyle, updateLinkStyle } from "./components";
+import {removeBook, setBooks} from "../../store/reducers/BookSlice";
+import {bookContainerStyle, createLinkStyle, deleteLinkStyle, updateLinkStyle} from "./components";
 
 const BookListComponent = () => {
     const [booksLocal, setBooksLocal] = useState<any[]>([]);

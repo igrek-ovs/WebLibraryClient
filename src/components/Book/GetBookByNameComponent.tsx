@@ -1,9 +1,8 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import api from "../../services/api";
 import {BookDto} from "../../models";
-import {bookContainerStyle} from "./components";
-import {booksContainerStyle, buttonStyle, genreAuthorStyle, imageStyle, lnStyle} from "../../styles";
-import {Box, Button, List, ListItem, Typography} from "@mui/material";
+import {booksContainerStyle, genreAuthorStyle, imageStyle} from "../../styles";
+import {Box, List, ListItem, Typography} from "@mui/material";
 
 
 const GetBookByIdComponent: React.FC = () => {
