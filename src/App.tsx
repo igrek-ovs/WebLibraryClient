@@ -3,7 +3,6 @@ import {Link, Route, Routes} from "react-router-dom";
 import AuthPage from "./components/Auth/AuthForm";
 import LogoutComponent from "./components/Auth/LogoutComponent";
 import RegisterPage from "./components/Auth/RegisterForm";
-import BookListComponent from "./components/Book/BookListComponent";
 import CreateBookComponent from "./components/Book/CreateBookComponent";
 import DeleteBookComponent from "./components/Book/DeleteBookComponent";
 import GetBookByNameComponent from "./components/Book/GetBookByNameComponent";
@@ -98,10 +97,6 @@ const App: React.FC<AppProps> = () => {
         <div className="App" style={containerStyle}>
             <AppBar position="static">
                 <Toolbar>
-                    <Link to="/books" style={linkStyle} onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = '#000080'; }}
-                          onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = ''; }}>
-                        List of Books
-                    </Link>
                     <Link to="/get-pages" style={linkStyle} onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = '#000080'; }}
                           onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = ''; }}>
                         List of Books With Pages
@@ -161,7 +156,6 @@ const App: React.FC<AppProps> = () => {
                     path="/login"
                     element={<AuthPage setIsAuthenticated={setIsAuthenticated} />}
                 />
-                <Route path="/books" element={<BookListComponent />} />
                 <Route path="/create-book" element={<CreateBookComponent />} />
                 <Route path="/update-book/:bookId" element={<UpdateBookComponent />} />
                 <Route path="/delete-book/:bookId" element={<DeleteBookComponent />} />
